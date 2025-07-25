@@ -1,72 +1,48 @@
-# empowerPlant: Comprehensive Project Overview
+# EmpowerPlant
 
-## Overview
-empowerPlant is a sophisticated iOS application designed with a backend powered by Rust and Kafka, leveraging event-driven microservices. This project is tailored to capture, process, and present environmental and agricultural data, emphasizing robust data management, user interaction, and integration with real-time systems.
+Modern plant monitoring system with iOS app and Rust backend.
 
-## Architecture
-### iOS Client
-- **Swift-based App**
-- Real-time data visualization and interaction.
-- Secure storage and processing of user credentials and preferences.
+## Features
+
+- **Plant Management** - Add, identify, and track plants
+- **Sensor Monitoring** - Real-time environmental data
+- **Live Camera** - Stream garden footage
+- **Weather Integration** - Local weather conditions
+- **User Authentication** - Secure access control
+
+## Quick Start
 
 ### Backend
-- **Rust-based Microservices**
-  - Handles data ingestion, processing, and storage.
-  - Utilizes Kafka for event streaming.
-  - Ensures data validation, integrity, and security.
+```bash
+cd backend
+cp ../.env.example .env
+# Edit .env with your configuration
+cargo run
+```
 
-### Database
-- **MySQL** for structured data handling.
-- Efficient retrieval and storage mechanisms.
-- Indexed and partitioned for optimal performance.
+### iOS App
+Open `ios/empowerPlant.xcodeproj` in Xcode and run.
 
-## Key Components
-### Microservices
-- User Management: Integrates Vue 3 + TypeScript for seamless user interactions.
-- Weather Data Processing: Fetches and processes external and sensor data.
-- Plant Monitoring: Tracks plant metrics using an array of sensors.
+### Docker
+```bash
+docker-compose up
+```
 
-### Security
-- Implements robust authentication and authorization mechanisms.
-- Data encrypted at rest and in transit.
-- Regular security audits and vulnerability assessments.
+## API Endpoints
 
-## Data Handling
-### Collection
-- Integrates multiple APIs and sensors for comprehensive data collection.
-- Data validation and high-quality processing.
+- `POST /api/v1/auth/login` - User authentication
+- `GET /api/v1/plants` - List plants
+- `POST /api/v1/plants/identify` - Identify plant from image
+- `GET /api/v1/sensors` - Sensor data
+- `GET /api/v1/cameras` - Camera streams
+- `GET /api/v1/weather/current` - Current weather
 
-### Storage
-- MySQL as the primary data store with efficient query support.
-- Kafka supports real-time event-driven architecture.
+## Architecture
 
-### Processing & Analysis
-- Real-time data processing pipelines.
-- Predictive analytics and machine learning integrations.
-
-## Real-time Monitoring
-- Utilizes WebSocket for real-time user updates.
-- Kafka supports streaming analytics and alerts.
-
-## Compliance
-- Fully adheres to GDPR, CCPA, and other data protection regulations.
-- Regular compliance reviews and updates.
-
-## Development & Testing
-- Comprehensive unit, integration, and end-to-end testing.
-- Continuous Integration/Continuous Deployment (CI/CD) setup.
-- Regular load and performance assessments.
-
-## Future Enhancements
-- Expand the sensor network for broader data collection.
-- Enhance AI components for smarter insights.
-- Improve the user interface and user experience continuously.
-
-## Contributing Guidelines
-- Follow Rust, Swift, and Vue.js best practices.
-- All contributions must pass existing test cases and undergo code reviews.
-- Please adhere to the established project documentation standards.
+- **Backend**: Rust + Actix-web + MySQL
+- **Frontend**: Swift + SwiftUI
+- **Deployment**: Docker + Docker Compose
 
 ## License
-empowerPlant is released under the MIT License.
 
+MIT

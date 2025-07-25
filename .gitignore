@@ -6,9 +6,8 @@
 .env.production
 
 # Rust/Cargo
-/target/
+/backend/target/
 **/*.rs.bk
-Cargo.lock
 .cargo/
 *.pdb
 
