@@ -7,17 +7,21 @@ use uuid::Uuid;
 
 mod auth;
 mod cameras;
+mod irrigation;
 mod plants;
 mod sensors;
 mod users;
 mod weather;
+mod websocket;
 
 pub use auth::*;
 pub use cameras::*;
+pub use irrigation::*;
 pub use plants::*;
 pub use sensors::*;
 pub use users::*;
 pub use weather::*;
+pub use websocket::*;
 
 // Health check endpoint
 pub async fn health_check() -> ActixResult<HttpResponse> {

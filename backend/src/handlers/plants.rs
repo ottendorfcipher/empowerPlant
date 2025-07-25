@@ -1,7 +1,7 @@
 use super::*;
 use crate::models::*;
 
-pub async fn get_plants(pool: web::Data<MySqlPool>) -> ActixResult<HttpResponse> {
+pub async fn get_plants(_pool: web::Data<MySqlPool>) -> ActixResult<HttpResponse> {
     // Mock data for now - replace with actual database queries
     let plants = vec![
         Plant {
@@ -18,7 +18,7 @@ pub async fn get_plants(pool: web::Data<MySqlPool>) -> ActixResult<HttpResponse>
 
 pub async fn create_plant(
     req: web::Json<CreatePlantRequest>,
-    pool: web::Data<MySqlPool>,
+    _pool: web::Data<MySqlPool>,
 ) -> ActixResult<HttpResponse> {
     let plant = Plant {
         id: Uuid::new_v4(),
@@ -33,7 +33,7 @@ pub async fn create_plant(
 
 pub async fn identify_plant(
     mut payload: Multipart,
-    pool: web::Data<MySqlPool>,
+    _pool: web::Data<MySqlPool>,
 ) -> ActixResult<HttpResponse> {
     // Mock plant identification - in production this would use ML models
     let identification = PlantIdentification {
@@ -53,7 +53,7 @@ pub async fn identify_plant(
 
 pub async fn get_plant(
     path: web::Path<Uuid>,
-    pool: web::Data<MySqlPool>,
+    _pool: web::Data<MySqlPool>,
 ) -> ActixResult<HttpResponse> {
     let plant_id = path.into_inner();
     
@@ -71,7 +71,7 @@ pub async fn get_plant(
 pub async fn update_plant(
     path: web::Path<Uuid>,
     req: web::Json<UpdatePlantRequest>,
-    pool: web::Data<MySqlPool>,
+    _pool: web::Data<MySqlPool>,
 ) -> ActixResult<HttpResponse> {
     let plant_id = path.into_inner();
     
@@ -88,7 +88,7 @@ pub async fn update_plant(
 
 pub async fn delete_plant(
     path: web::Path<Uuid>,
-    pool: web::Data<MySqlPool>,
+    _pool: web::Data<MySqlPool>,
 ) -> ActixResult<HttpResponse> {
     let _plant_id = path.into_inner();
     Ok(HttpResponse::Ok().json(ApiResponse::<()>::error("Plant deleted successfully")))

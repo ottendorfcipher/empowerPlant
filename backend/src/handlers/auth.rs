@@ -3,7 +3,7 @@ use crate::models::*;
 
 pub async fn auth_login(
     req: web::Json<LoginRequest>,
-    pool: web::Data<MySqlPool>,
+    __pool: web::Data<MySqlPool>,
 ) -> ActixResult<HttpResponse> {
     // Mock authentication - replace with actual auth logic
     let token = "mock_jwt_token_here";
@@ -18,7 +18,7 @@ pub async fn auth_login(
 
 pub async fn auth_register(
     req: web::Json<RegisterRequest>,
-    pool: web::Data<MySqlPool>,
+    __pool: web::Data<MySqlPool>,
 ) -> ActixResult<HttpResponse> {
     let user = User {
         id: Uuid::new_v4(),

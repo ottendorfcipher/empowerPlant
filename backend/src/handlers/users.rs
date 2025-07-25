@@ -1,7 +1,7 @@
 use super::*;
 use crate::models::*;
 
-pub async fn get_user_profile(pool: web::Data<MySqlPool>) -> ActixResult<HttpResponse> {
+pub async fn get_user_profile(_pool: web::Data<MySqlPool>) -> ActixResult<HttpResponse> {
     let user = User {
         id: Uuid::new_v4(),
         email: "user@example.com".to_string(),
@@ -14,7 +14,7 @@ pub async fn get_user_profile(pool: web::Data<MySqlPool>) -> ActixResult<HttpRes
 
 pub async fn update_user_profile(
     req: web::Json<UpdateUserRequest>,
-    pool: web::Data<MySqlPool>,
+    _pool: web::Data<MySqlPool>,
 ) -> ActixResult<HttpResponse> {
     let user = User {
         id: Uuid::new_v4(),

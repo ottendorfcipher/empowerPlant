@@ -1,7 +1,7 @@
 use super::*;
 use crate::models::*;
 
-pub async fn get_current_weather(pool: web::Data<MySqlPool>) -> ActixResult<HttpResponse> {
+pub async fn get_current_weather(_pool: web::Data<MySqlPool>) -> ActixResult<HttpResponse> {
     let weather = WeatherData {
         temperature: 22.5,
         humidity: 65.0,
@@ -14,7 +14,7 @@ pub async fn get_current_weather(pool: web::Data<MySqlPool>) -> ActixResult<Http
     Ok(HttpResponse::Ok().json(ApiResponse::success(weather, "Current weather retrieved successfully")))
 }
 
-pub async fn get_weather_forecast(pool: web::Data<MySqlPool>) -> ActixResult<HttpResponse> {
+pub async fn get_weather_forecast(_pool: web::Data<MySqlPool>) -> ActixResult<HttpResponse> {
     let forecast = vec![
         WeatherData {
             temperature: 23.0,

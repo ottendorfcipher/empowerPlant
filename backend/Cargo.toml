@@ -10,10 +10,10 @@ actix-cors = "0.7"
 actix-multipart = "0.7"
 
 # Async runtime
-tokio = { version = "1.0", features = ["full"] }
+tokio = { version = "1.0", features = ["full", "time"] }
 
 # Database
-sqlx = { version = "0.7", features = ["runtime-tokio-rustls", "mysql", "chrono", "uuid"] }
+sqlx = { version = "0.7", features = ["runtime-tokio-rustls", "mysql", "sqlite", "chrono", "uuid", "migrate"] }
 
 # Serialization
 serde = { version = "1.0", features = ["derive"] }
@@ -44,3 +44,14 @@ reqwest = { version = "0.11", features = ["json"] }
 
 # Input validation
 validator = { version = "0.18", features = ["derive"] }
+
+# Serial communication
+serialport = "4.3"
+
+# WebSocket support
+actix-ws = "0.3"
+futures-util = "0.3"
+
+# Additional async utilities
+tokio-stream = "0.1"
+broadcast = "0.1"

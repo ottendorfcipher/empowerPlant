@@ -10,13 +10,23 @@ import SwiftUI
 // MARK: - Irrigation Management
 
 struct IrrigationManagementView: View {
+    @State private var irrigationStatus: IrrigationStatus?
+    @State private var sensors: [IrrigationSensor] = []
+    @State private var diagnostics: IrrigationDiagnostics?
+    @State private var serialPorts: [SerialPort] = []
+    @State private var isLoading = false
+    @State private var errorMessage: String?
+    @State private var showingScheduler = false
+    @State private var showingArduinoConnection = false
+    @State private var selectedCommand: IrrigationCommandType?
+    @State private var pumpLevel: Double = 50.0
+    
+    // Mock zones for UI demonstration
     @State private var zones = [
         IrrigationZone(id: "A1", name: "Greenhouse A", status: .active, moistureLevel: 65, schedule: "Every 6h"),
         IrrigationZone(id: "B1", name: "Greenhouse B", status: .scheduled, moistureLevel: 45, schedule: "Every 8h"),
         IrrigationZone(id: "C1", name: "Outdoor Plot", status: .maintenance, moistureLevel: 30, schedule: "Daily")
     ]
-    
-    @State private var showingScheduler = false
     @State private var totalWaterUsage = 245.8
     
     var body: some View {

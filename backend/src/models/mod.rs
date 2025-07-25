@@ -156,3 +156,101 @@ pub struct WeatherData {
     pub condition: String,
     pub timestamp: DateTime<Utc>,
 }
+
+// Irrigation models
+#[derive(Serialize, Deserialize)]
+pub struct IrrigationStatus {
+    pub pump_active: bool,
+    pub pump_pwm_level: u8, // 0-255 PWM value
+    pub solenoid_active: bool,
+    pub water_level_ok: bool,
+    pub flow_rate: f64, // L/min
+    pub voltage: f64, // 12V rail voltage
+    pub system_uptime: u64, // seconds
+    pub last_command: Option<String>,
+    pub error: Option<String>,
+    pub timestamp: DateTime<Utc>,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct IrrigationSensor {
+    pub id: Uuid,
+    pub sensor_type: IrrigationSensorType,
+    pub location: String,
+    pub value: f64,
+    pub unit: String,
+    pub status: String,
+    pub last_reading: DateTime<Utc>,
+}
+
+#[derive(Serialize, Deserialize)]
+pub enum IrrigationSensorType {
+    WaterLevel,
+    FlowRate,
+    Voltage,
+    SoilMoisture,
+    Pressure,
+}
+
+#[derive(Deserialize, Validate)]
+pub struct IrrigationCommand {
+    #[validate(length(min = 1))]
+    pub command: String, // PUMP:SOFTSTART, PUMP:OFF, SOLENOID:ON, etc.
+    pub parameters: Option<serde_json::Value>, // Optional parameters for commands
+}
+
+#[derive(Serialize)]
+pub struct IrrigationCommandResponse {
+    pub success: bool,
+    pub command: String,
+    pub result: String,
+    pub system_status: IrrigationStatus,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct IrrigationDiagnostics {
+    pub pump_diagnostics: PumpDiagnostics,
+    pub solenoid_diagnostics: SolenoidDiagnostics,
+    pub sensor_diagnostics: Vec<SensorDiagnostics>,
+    pub power_diagnostics: PowerDiagnostics,
+    pub timestamp: DateTime<Utc>,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct PumpDiagnostics {
+    pub motor_current: f64, // Amps
+    pub motor_temperature: f64, // Celsius
+    pub runtime_hours: f64,
+    pub cycles_completed: u32,
+    pub soft_start_functioning: bool,
+    pub last_maintenance: Option<DateTime<Utc>>,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct SolenoidDiagnostics {
+    pub coil_resistance: f64, // Ohms
+    pub activation_count: u32,
+    pub response_time_ms: u32,
+    pub leak_detected: bool,
+    pub last_maintenance: Option<DateTime<Utc>>,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct SensorDiagnostics {
+    pub sensor_id: Uuid,
+    pub sensor_type: String,
+    pub calibration_status: String,
+    pub last_calibration: Option<DateTime<Utc>>,
+    pub drift_percentage: f64,
+    pub readings_count: u32,
+    pub error_rate: f64,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct PowerDiagnostics {
+    pub supply_voltage: f64,
+    pub current_draw: f64,
+    pub power_consumption: f64, // Watts
+    pub efficiency: f64, // Percentage
+    pub thermal_status: String,
+}

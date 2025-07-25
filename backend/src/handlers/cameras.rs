@@ -1,7 +1,7 @@
 use super::*;
 use crate::models::*;
 
-pub async fn get_cameras(pool: web::Data<MySqlPool>) -> ActixResult<HttpResponse> {
+pub async fn get_cameras(_pool: web::Data<MySqlPool>) -> ActixResult<HttpResponse> {
     let cameras = vec![
         Camera {
             id: Uuid::new_v4(),
@@ -17,7 +17,7 @@ pub async fn get_cameras(pool: web::Data<MySqlPool>) -> ActixResult<HttpResponse
 
 pub async fn setup_camera(
     req: web::Json<CameraSetupRequest>,
-    pool: web::Data<MySqlPool>,
+    _pool: web::Data<MySqlPool>,
 ) -> ActixResult<HttpResponse> {
     let camera = Camera {
         id: Uuid::new_v4(),
@@ -32,7 +32,7 @@ pub async fn setup_camera(
 
 pub async fn get_camera_stream(
     path: web::Path<Uuid>,
-    pool: web::Data<MySqlPool>,
+    _pool: web::Data<MySqlPool>,
 ) -> ActixResult<HttpResponse> {
     let camera_id = path.into_inner();
     

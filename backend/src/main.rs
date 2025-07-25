@@ -27,17 +27,26 @@ async fn main() -> std::io::Result<()> {
     dotenvy::dotenv().ok();
     
     let database_url = env::var("DATABASE_URL")
-        .expect("DATABASE_URL environment variable must be set");
+        .unwrap_or_else(|_| "mysql://root:password@localhost:3306/empowerplant".to_string());
     let host = env::var("HOST").unwrap_or_else(|_| "127.0.0.1".to_string());
     let port = env::var("PORT")
         .unwrap_or_else(|_| "8080".to_string())
         .parse::<u16>()
         .expect("PORT must be a valid number");
 
-    // Initialize database connection
-    let db_pool = database::create_pool(&database_url)
-        .await
-        .expect("Failed to create database pool");
+    // Connect to database
+    tracing::info!("Connecting to database...");
+    let db_pool = MySqlPool::connect(&database_url).await
+        .expect("Failed to connect to MySQL database. Please ensure MySQL is running and the database 'empowerplant' exists.");
+    
+    tracing::info!("Successfully connected to database");
+    
+    // Run migrations
+    if let Err(e) = sqlx::migrate!("./migrations").run(&db_pool).await {
+        tracing::warn!("Failed to run migrations: {}", e);
+    } else {
+        tracing::info!("Database migrations completed successfully");
+    }
 
     tracing::info!("Starting EmpowerPlant Backend on {}:{}", host, port);
 
@@ -85,6 +94,22 @@ async fn main() -> std::io::Result<()> {
                     // Users
                     .route("/users/profile", web::get().to(get_user_profile))
                     .route("/users/profile", web::put().to(update_user_profile))
+                    
+                    // Irrigation System
+                    .route("/irrigation/status", web::get().to(get_irrigation_status))
+                    .route("/irrigation/command", web::post().to(execute_irrigation_command))
+                    .route("/irrigation/sensors", web::get().to(get_irrigation_sensors))
+                    .route("/irrigation/diagnostics", web::get().to(get_irrigation_diagnostics))
+                    .route("/irrigation/emergency-stop", web::post().to(emergency_stop))
+                    .route("/irrigation/test", web::post().to(run_system_test))
+                    
+                    // Arduino Management
+                    .route("/arduino/ports", web::get().to(list_serial_ports))
+                    .route("/arduino/connect", web::post().to(connect_arduino))
+                    .route("/arduino/disconnect", web::post().to(disconnect_arduino))
+                    
+                    // WebSocket for real-time monitoring
+                    .route("/ws/irrigation", web::get().to(irrigation_websocket))
             )
             .route("/health", web::get().to(health_check))
     })

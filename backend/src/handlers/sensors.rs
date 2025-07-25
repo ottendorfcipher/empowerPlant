@@ -1,7 +1,7 @@
 use super::*;
 use crate::models::*;
 
-pub async fn get_sensors(pool: web::Data<MySqlPool>) -> ActixResult<HttpResponse> {
+pub async fn get_sensors(__pool: web::Data<MySqlPool>) -> ActixResult<HttpResponse> {
     let sensors = vec![
         Sensor {
             id: Uuid::new_v4(),
@@ -17,7 +17,7 @@ pub async fn get_sensors(pool: web::Data<MySqlPool>) -> ActixResult<HttpResponse
 
 pub async fn create_sensor(
     req: web::Json<CreateSensorRequest>,
-    pool: web::Data<MySqlPool>,
+    __pool: web::Data<MySqlPool>,
 ) -> ActixResult<HttpResponse> {
     let sensor = Sensor {
         id: Uuid::new_v4(),
@@ -32,7 +32,7 @@ pub async fn create_sensor(
 
 pub async fn get_sensor_readings(
     path: web::Path<Uuid>,
-    pool: web::Data<MySqlPool>,
+    __pool: web::Data<MySqlPool>,
 ) -> ActixResult<HttpResponse> {
     let sensor_id = path.into_inner();
     
@@ -52,7 +52,7 @@ pub async fn get_sensor_readings(
 pub async fn add_sensor_reading(
     path: web::Path<Uuid>,
     req: web::Json<SensorReadingRequest>,
-    pool: web::Data<MySqlPool>,
+    __pool: web::Data<MySqlPool>,
 ) -> ActixResult<HttpResponse> {
     let sensor_id = path.into_inner();
     
