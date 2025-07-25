@@ -25,7 +25,7 @@ async fn main() -> std::io::Result<()> {
     // Load configuration from environment
     dotenv::dotenv().ok();
     let database_url = env::var("DATABASE_URL")
-        .unwrap_or_else(|_| "mysql://root:password@localhost:3306/empowerplant".to_string());
+        .expect("DATABASE_URL environment variable must be set");
     let host = env::var("HOST").unwrap_or_else(|_| "127.0.0.1".to_string());
     let port = env::var("PORT")
         .unwrap_or_else(|_| "3003".to_string())
